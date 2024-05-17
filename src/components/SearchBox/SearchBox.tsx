@@ -6,6 +6,7 @@ import { useApiContext } from '../../utils/useContent';
 const SearchBox = () => {
   const { fetchMed } = useApiContext();
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [prevSearchTerm, setPrevSearchTerm ] = React.useState<string | null>(null);
   const [displayBackNavigation, setDisplayBackNavigation] = React.useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,15 +14,18 @@ const SearchBox = () => {
   }
 
   const handleClick = () => {
+    if (searchTerm === '' || searchTerm === prevSearchTerm) {
+      return;
+    }
+
     setDisplayBackNavigation(true);
+    setPrevSearchTerm(searchTerm);
     fetchMed(searchTerm);
-    console.log('search', searchTerm);
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      setDisplayBackNavigation(true);
-      console.log('search', searchTerm);
+      handleClick();
     }
   }
 
