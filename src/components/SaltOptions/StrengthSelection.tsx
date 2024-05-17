@@ -1,14 +1,23 @@
 import { FC, useState } from "react";
 import StyledButton from "../StyledButton";
+import { SaltSuggestions } from "../../types/salt.types";
+import { getButtonType } from "../../utils/getButtonType";
 
 interface StrengthSelectionProps {
   strengths: string[];
   onSelectStrength: (strength: string) => void;
+  selectedStrength: string;
+  options: SaltSuggestions["salt_forms_json"];
+  selectedForm: string;
+  selectedPacking: string;
 }
 
 const StrengthSelection: FC<StrengthSelectionProps> = ({
   strengths,
   onSelectStrength,
+  selectedStrength,
+  options,
+  selectedForm,
 }) => {
   const [showAllStrengths, setShowAllStrengths] = useState(false);
   return (
@@ -17,11 +26,14 @@ const StrengthSelection: FC<StrengthSelectionProps> = ({
       <div className="w-[75%] flex flex-wrap gap-[20px]">
         {(showAllStrengths ? strengths : strengths.slice(0, 3)).map(
           (strength: string) => {
+            const currentStrength = options[selectedForm][strength];
+            const isAvailable = currentStrength && Object.values(currentStrength).some(strength => strength !== null);
+            const type = getButtonType(strength === selectedStrength, isAvailable);
             return (
               <StyledButton
                 key={strength}
                 text={strength}
-                type="dashed"
+                type={type}
                 onClick={() => onSelectStrength(strength)}
               />
             );

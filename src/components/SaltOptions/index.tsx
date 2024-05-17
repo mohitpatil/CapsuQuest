@@ -57,6 +57,10 @@ const SaltOptions: FC<SaltOptionsProps> = ({ options, saltName }) => {
         />
         <StrengthSelection
           strengths={strengths}
+          selectedStrength={selectedStrength}
+          options={options}
+          selectedForm={selectedForm}
+          selectedPacking={selectedPacking}
           onSelectStrength={(strength) => {
             setSelectedStrength(strength);
             setSelectedPacking(Object.keys(options[selectedForm][strength])[0]);

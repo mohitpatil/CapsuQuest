@@ -29,7 +29,7 @@ const PackingSelection: FC<PackingSelectionProps> = ({
         {(showAllPackings ? packings : packings.slice(0, 3)).map(
           (packing: string) => {
             const packingOptions = options[selectedForm][selectedStrength][packing];
-            const isAvailable = !Object.values(packingOptions).every(option => option === null);
+            const isAvailable = packingOptions && Object.values(packingOptions).some(option => option !== null);
             const type = getButtonType(packing === selectedPacking, isAvailable);
 
             return (
